@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link
-          rel="stylesheet"
-          type="text/css"
-          href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/2.1.0/joint.css"
-  />
-  <link
-          rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-          crossorigin="anonymous"
-  />
-  <script
-          src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-          crossorigin="anonymous"
-  ></script>
-  <script
-          src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-          integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-          crossorigin="anonymous"
-  ></script>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/jointjs/2.1.0/joint.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+            integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="./index.css"
+    />
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"
+    ></script>
 </head>
 <body>
 <!-- content -->
 <!-- Modal Trigger Button -->
-<button id="mainButton" onclick="handleMainButtonCLick">Main Page</button>
-<button id="returnToPrevious" onclick="handleReturnToPreviousClick" >Return</button>
-<button id="addNewPosition" onclick="handleAddNewPositionClick" >New Position</button>
+<div id="root">
+    <div id="container">
+        <h3 class="header">Albemarle Hungary Kft.</h3>
+        <span class="btn-container">
+            <button id="mainButton" class="btn btn-outline-warning btn-albemarle" onclick="handleMainButtonCLick">Main Page</button>
+            <button id="returnToPrevious" class="btn btn-outline-warning btn-albemarle"
+                    onclick="handleReturnToPreviousClick">Return</button>
+            <button id="addNewPosition" class="btn btn-outline-warning btn-albemarle "
+                    onclick="handleAddNewPositionClick">New Position</button>
+        </span>
+    </div>
+</div>
+
+
 <div id="overlay" style="visibility: hidden;"></div>
 <div id="page" style="visibility: visible;"></div>
+
 
 <!-- dependencies -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
