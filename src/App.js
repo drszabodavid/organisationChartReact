@@ -1,154 +1,182 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import MainPage from "./components/MainPage";
+import Header from "./components/Header";
+import {Route, Switch} from "react-router-dom";
+import SubPage from "./components/SubPage";
 
-// let mainButton = document.getElementById("mainButton");
-// mainButton.addEventListener("click", handleMainButtonCLick);
-//
-// let returnButton = document.getElementById("returnToPrevious");
-// returnButton.addEventListener("click", handleReturnToPreviousClick);
-//
-//
-//
-// function findElement(arr, propName, propValue) {
-//   for (let i = 0; i < arr.length; i++)
-//     if (arr[i][propName] === propValue) return arr[i];
-// }
-//
-// function createCenterCircle(graph, position) {
-//   let centerCircle = createCircle();
-//   centerCircle = designCenterCircle(centerCircle, graph, position);
-//   return centerCircle;
-// }
-//
-// function designCenterCircle(circle, graph, position) {
-//   circle.position(centerStartPositionX, centerStartPositionY);
-//   circle.attr("label/text", position);
-//   circle.addTo(graph);
-//   return circle;
-// }
-//
-// function addConnectionCirclesToCenter(emp, position, graph) {
-//   let foundEmployee = findElement(emp, "position", position);
-//   let listOfConnections = foundEmployee["connections"];
-//   let listOfNodeCircles = [];
-//   for (let i = 0; i < listOfConnections.length; ++i) {
-//     let rectNew = createCircle();
-//     rectNew.position(positions[i]["x"], positions[i]["y"]);
-//     rectNew.attr("label/text", listOfConnections[i]);
-//     rectNew.addTo(graph);
-//     listOfNodeCircles.push(rectNew);
-//   }
-//   return listOfNodeCircles;
-// }
-//
-// function renderSingleGraph(position) {
-//   isMainPage = false;
-//   // eslint-disable-next-line no-undef
-//   let graph = new joint.dia.Graph();
-//   let paper = createPaper(graph, "overlay");
-//   changePageSize("page");
-//   let centerCircle = createCenterCircle(graph, position);
-//   let listOfNodeCircles = addConnectionCirclesToCenter(employees, position, graph);
-//   createLinksBetweenConnectionCircles(listOfNodeCircles, graph, centerCircle, paper);
-//   addOnclickFunctionToCircle(paper)
-//
-// }
-//
-// function addOnclickFunctionToCircle(paper) {
-//   paper.on("element:pointerdown", function (cellView, evt) {
-//     evt.stopPropagation();
-//     let position = cellView.model.attr("label/text");
-//     renderSingleGraph(position);
-//   });
-//
-// }
-//
-// function createLinksBetweenCircles(from, graph, to) {
-//   // eslint-disable-next-line no-undef
-//   let link = new joint.shapes.standard.Link();
-//   link.source(from);
-//   link.target(to);
-//   link.addTo(graph);
-//   link.attr("line/stroke", "orange");
-//
-//   link.attr("textToRepresent", "Input :  Messaasdfasfasdfasdfasdfge\n " +
-//       "Recieve : asdfawfsertertwereasdfasfasdfd");
-//   link.attr({
-//     line: {
-//       stroke: 'blue',
-//       strokeWidth: 2
-//     }
-//   });
-// }
-//
-// function createLinksBetweenConnectionCircles(listOfNodeCircles, graph, centerCircle, paper) {
-//   listOfNodeCircles.forEach(element => {
-//     createLinksBetweenCircles(centerCircle, graph, element);
-//     createLinksBetweenCircles(element, graph, centerCircle);
-//   });
-//   addOnclickToArrows(paper)
-// }
-//
-// function addOnclickToArrows(paper) {
-//   paper.on("link:pointerclick", function (cellView, evt) {
-//     let model = cellView.model;
-//     if (model.attr('text/visibility') === 'visible') {
-//       model.attr('text/visibility', 'hidden');
-//       model.removeLabel()
-//     } else {
-//       model.attr('text/visibility', 'visible');
-//       model.appendLabel({
-//         attrs: {
-//           text: {
-//             text: model.attr("textToRepresent"),
-//           }
-//         }
-//       });
-//     }
-//   });
-// }
-//
+class App extends Component {
 
-//
-//
-//
-// function handleMainButtonCLick() {
-//   if (!isMainPage) {
-//     previousCircle = null;
-//     isMainPage = true;
-//     handleLayerVisibility("overlay");
-//     handleLayerVisibility("page");
-//     let el = document.getElementById("page");
-//     el.style.width = "1550px";
-//     el.style.height = "800px";
-//     changePageSize("overlay");
-//
-//   }
-// }
-//
-// function handleLayerVisibility(elementId) {
-//   let el = document.getElementById(elementId);
-//   el.style.visibility = el.style.visibility === "visible" ? "hidden" : "visible";
-// }
-//
-// function changePageSize(elementId) {
-//   let el = document.getElementById(elementId);
-//   el.style.width = "0";
-//   el.style.height = "0";
-// }
-//
-// function handleReturnToPreviousClick() {
-//   if (previousCircle !== null)
-//     renderSingleGraph(previousCircle)
-// }
+    state = {
+        previousCircle: null,
+        employees: [
+            {id: "1", name: "Employee1", position: "Position1", connections: ["Position2"]},
+            {id: "2", name: "Employee2", position: "Position2", connections: ["Position1", "Position3"]},
+            {id: "3", name: "Employee3", position: "Position3", connections: ["Position1", "Position2", "Position4"]},
+            {
+                id: "4",
+                name: "Employee4",
+                position: "Position4",
+                connections: ["Position1", "Position2", "Position3", "Position5"]
+            },
+            {
+                id: "5",
+                name: "Employee5",
+                position: "Position5",
+                connections: ["Position1", "Position2", "Position3", "Position4", "GPE"]
+            },
+            {
+                id: "6",
+                name: "Kulcsár Nikolett",
+                position: "GPE",
+                connections: ["Operational\nControl\nand CI Team", "Site Manager", "RTP Manager", "GBPO"],
+                fill: "green"
+            },
+            {
+                id: "7",
+                name: "Employee7",
+                position: "Position7",
+                connections: ["Position1", "Position2", "Position3", "Position4", "Position5", "Position8"]
+            },
+            {
+                id: "8",
+                name: "Employee8",
+                position: "Position8",
+                connections: ["Position1", "Position2", "Position3", "Position4", "Position5", "Position2", "Position7"]
+            },
+            {
+                id: "9",
+                name: "Employee9",
+                position: "Position9",
+                connections: ["Position1", "Position2", "Position3", "Position4", "Position5", "Position8", "Position7", "Position8"]
+            },
+            {
+                id: "10",
+                name: "Kulcs Aladár",
+                position: "Site Manager",
+                fill: "orange",
+                connections: ["Position1", "Position2", "Position3", "Position4", "Position5", "Position1", "Position7"]
+            },
+            {
+                id: "11",
+                name: "Employee11",
+                position: "Position11",
+                connections: ["Position1", "Position2", "Position3", "Position4", "Position5", "Position1"]
+            },
+            {
+                id: "12",
+                name: "Employee12",
+                position: "Position12",
+                connections: ["Position1", "Position2", "Position3", "Position4", "Position5"]
+            },
+            {
+                id: "13",
+                name: "Ló Anna",
+                position: "Operational\nControl\nand CI Team",
+                fill: "orange",
+                connections: ["Site Manager", "RTP Manager", "GBPO", "Position3", "GPE", "Site Manager", "GBPO"]
+            },
+            {
+                id: "14",
+                name: "Employee14",
+                position: "Position14",
+                connections: ["Position1", "Position2", "Position3"]
+            },
+            {
+                id: "15",
+                name: "Employee15",
+                position: "Position15",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14", "RTP Manager", "Position17", "Position18"]
+            },
+            {
+                id: "16",
+                name: "Roz Ália",
+                position: "RTP Manager",
+                fill: "orange",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14", "Position17", "Position18"]
+            },
+            {id: "17", name: "Employee17", position: "Position17", connections: ["Site Manager", "Position11"]},
+            {
+                id: "18",
+                name: "Employee18",
+                position: "Position18",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14", "RTP Manager", "Position17"]
+            },
+            {
+                id: "19",
+                name: "Employee19",
+                position: "Position19",
+                connections: ["Site Manager", "Operational\nControl\nand CI Team", "Position14", "RTP Manager", "Position17", "Position18"]
+            },
+            {
+                id: "20",
+                name: "Kutya Füle",
+                position: "GBPO",
+                fill: "orange",
+                connections: ["Operational\nControl\nand CI Team", "Site Manager", "RTP Manager", "GPE"]
+            },
+            {
+                id: "21",
+                name: "Employee21",
+                position: "Position21",
+                connections: ["GBPO", "Position11", "Operational\nControl\nand CI Team", "Position14", "RTP Manager", "Position17", "Position18"]
+            },
+            {
+                id: "22",
+                name: "Employee22",
+                position: "Position22",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14", "RTP Manager", "Position17", "Position18"]
+            },
+            {
+                id: "23",
+                name: "Employee23",
+                position: "Position23",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14", "RTP Manager", "Position17", "Position18"]
+            },
+            {
+                id: "24",
+                name: "Employee24",
+                position: "Position24",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14", "RTP Manager", "Position18"]
+            },
+            {
+                id: "25",
+                name: "Employee25",
+                position: "Position25",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14", "RTP Manager"]
+            },
+            {
+                id: "26",
+                name: "Employee26",
+                position: "Position26",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team", "Position14"]
+            },
+            {
+                id: "27",
+                name: "Employee27",
+                position: "Position27",
+                connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team"]
+            },
+            {id: "28", name: "Employee28", position: "Position28", connections: ["Site Manager", "Position11"]}
+        ]
+    };
 
-function App() {
-  return (
-    <div className="App">
-      <MainPage />
-    </div>
-  );
+
+
+
+    render() {
+        return (
+            <div key="app" className="App">
+                <Header/>
+                <Switch>
+                    <Route exact path="/" component={() => <MainPage employees={this.state.employees}/>}/>
+                    <Route path="/connections"
+                           component={() => <SubPage employees={this.state.employees} centerStartPositionX={700}
+                                                     centerStartPositionY={225}/>}/>
+                </Switch>
+            </div>
+        );
+    }
 }
 
 export default App;
