@@ -21,6 +21,7 @@
 #container {
     background-color: #190053;
     text-align: center;
+    display: block;
 }
 
 
