@@ -47,10 +47,8 @@ class MainPage extends Component {
         let paper = this.createPaper(graph, "main");
         this.setUpMainCircles(this.props.employees, startPositionX, startPositionY, graph);
         let circleClickOnMainPage = this.props.circleClickOnMainPage;
-
         paper.on("element:pointerdown", function (cellView, evt) {
             let position = cellView.model.attr("label/text");
-            console.log(position);
             circleClickOnMainPage(position);
         });
     }

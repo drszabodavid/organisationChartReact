@@ -8,7 +8,7 @@ class SubPage extends Component {
     state = {
         centerStartPositionX: this.props.centerStartPositionX,
         centerStartPositionY: this.props.centerStartPositionY,
-        positions : this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY)
+        positions : this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY),
     };
 
 
@@ -136,7 +136,6 @@ class SubPage extends Component {
         let circleClickOnMainPage = this.props.circleClickOnMainPage;
         paper.on("element:pointerdown", function (cellView, evt) {
             let position = cellView.model.attr("label/text");
-            console.log(position);
             circleClickOnMainPage(position);
         });
 
