@@ -1,18 +1,17 @@
 import React, {Component} from 'react';
+import { withRouter } from 'react-router-dom';
+
+
 
 class SubPage extends Component {
 
     state = {
         centerStartPositionX: this.props.centerStartPositionX,
         centerStartPositionY: this.props.centerStartPositionY,
-        positions: this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY)
+        positions : this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY)
     };
 
-    componentDidMount() {
-        console.log(this.props.centerStartPositionY)
-        console.log(this.props.centerStartPositionX)
-        console.log(this.state.positions)
-    }
+
 
     calculateConnectedCirclePositions(centerStartPositionX, centerStartPositionY) {
         let positions = [];
@@ -134,6 +133,12 @@ class SubPage extends Component {
         let centerCircle = this.createCenterCircle(graph, position);
         let listOfNodeCircles = this.addConnectionCirclesToCenter(this.props.employees, position, graph);
         this.createLinksBetweenConnectionCircles(listOfNodeCircles, graph, centerCircle, paper);
+        let circleClickOnMainPage = this.props.circleClickOnMainPage;
+        paper.on("element:pointerdown", function (cellView, evt) {
+            let position = cellView.model.attr("label/text");
+            console.log(position);
+            circleClickOnMainPage(position);
+        });
 
     }
 
@@ -155,10 +160,10 @@ class SubPage extends Component {
     render() {
         return (
             <div>
-                {this.renderSingleGraph("GBPO")}
+                {this.renderSingleGraph(this.props.circleToRender)}
             </div>
         );
     }
 }
 
-export default SubPage;
+export default withRouter(SubPage);

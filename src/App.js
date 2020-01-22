@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import './App.css';
-import MainPage from "./components/MainPage";
 import Header from "./components/Header";
-import {Route, Switch} from "react-router-dom";
+import MainPage from "./components/MainPage";
 import SubPage from "./components/SubPage";
 
 class App extends Component {
 
     state = {
+        currentCircle: "GBPO",
         previousCircle: null,
         employees: [
             {id: "1", name: "Employee1", position: "Position1", connections: ["Position2"]},
@@ -158,25 +158,50 @@ class App extends Component {
                 connections: ["Site Manager", "Position11", "Operational\nControl\nand CI Team"]
             },
             {id: "28", name: "Employee28", position: "Position28", connections: ["Site Manager", "Position11"]}
-        ]
+        ],
+        subPage: true
     };
 
+    onMainButtonClick = async () => {
+        await this.setState({currentCircle: null, previousCircle: null, subPage : false});
+    };
 
+    onReturnButtonClick = async () => {
+        await this.setState({currentCircle: this.state.previousCircle, previousCircle: null});
+    };
 
+    circleClickOnMainPage = async position => {
+        await this.setState({previousCircle: this.state.currentCircle, currentCircle: position,  subPage : true});
+
+    };
 
     render() {
-        return (
-            <div key="app" className="App">
-                <Header/>
-                <Switch>
-                    <Route exact path="/" component={() => <MainPage employees={this.state.employees}/>}/>
-                    <Route path="/connections"
-                           component={() => <SubPage employees={this.state.employees} centerStartPositionX={700}
-                                                     centerStartPositionY={225}/>}/>
-                </Switch>
-            </div>
-        );
+        if (!this.state.subPage) {
+            return (
+                <div key="app" className="App">
+                    <Header
+                        onReturnButtonClick={this.onReturnButtonClick}
+                        onMainButtonClick={this.circleClickOnMainPage}/>
+                    <MainPage employees={this.state.employees}
+                              circleClickOnMainPage={this.onMainButtonClick}
+                    />
+                </div>
+            )
+        } else {
+            return (
+                <div key="app" className="App">
+                    <Header onMainButtonClick={this.onMainButtonClick} onReturnButtonClick={this.onReturnButtonClick}/>
+                    <SubPage employees={this.state.employees}
+                             centerStartPositionX={700}
+                             centerStartPositionY={225}
+                             circleToRender={this.state.currentCircle}
+                             circleClickOnMainPage={this.circleClickOnMainPage}/>
+                </div>
+            )
+        }
     }
+
 }
+
 
 export default App;

@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
 
 
-
 class MainPage extends Component {
-
-    state = {
-        previousCircle : null,
-    };
 
     setUpMainCircles(emp, startPositionX, startPositionY, graph) {
         emp.forEach(element => {
@@ -49,21 +44,15 @@ class MainPage extends Component {
 
         // eslint-disable-next-line no-undef
         let graph = new joint.dia.Graph();
-        this.createPaper(graph, "main");
-
+        let paper = this.createPaper(graph, "main");
         this.setUpMainCircles(this.props.employees, startPositionX, startPositionY, graph);
+        let circleClickOnMainPage = this.props.circleClickOnMainPage;
 
-        // paper.on("element:pointerdown", function (cellView, evt) {
-        //     let position = cellView.model.attr("label/text");
-        //     this.state.previousCircle = position;
-        //     this.renderSingleGraph(position);
-        //
-        //     let el = document.getElementById("overlay");
-        //     el.style.visibility = el.style.visibility === "visible" ? "hidden" : "visible";
-        //     let el2 = document.getElementById("page");
-        //
-        //     el2.style.visibility = el2.style.visibility === "visible" ? "hidden" : "visible";
-        // });
+        paper.on("element:pointerdown", function (cellView, evt) {
+            let position = cellView.model.attr("label/text");
+            console.log(position);
+            circleClickOnMainPage(position);
+        });
     }
 
     createCircle() {
