@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { withRouter } from 'react-router-dom';
-
+import {withRouter} from 'react-router-dom';
+import Modal from "./Modal";
 
 
 class SubPage extends Component {
@@ -8,10 +8,10 @@ class SubPage extends Component {
     state = {
         centerStartPositionX: this.props.centerStartPositionX,
         centerStartPositionY: this.props.centerStartPositionY,
-        positions : this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY),
+        positions: this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY),
+        show: false,
+        messageInModal : null
     };
-
-
 
     calculateConnectedCirclePositions(centerStartPositionX, centerStartPositionY) {
         let positions = [];
@@ -26,7 +26,6 @@ class SubPage extends Component {
         positions.push({x: centerStartPositionX - difference, y: centerStartPositionY + difference});
         return positions;
     }
-
 
     findElement(arr, propName, propValue) {
         for (let i = 0; i < arr.length; i++)
@@ -46,7 +45,6 @@ class SubPage extends Component {
         circle.attr("body/fill", "yellow");
         return circle;
     }
-
 
     createLinksBetweenCircles(from, graph, to) {
         // eslint-disable-next-line no-undef
@@ -90,28 +88,8 @@ class SubPage extends Component {
             this.createLinksBetweenCircles(centerCircle, graph, element);
             this.createLinksBetweenCircles(element, graph, centerCircle);
         });
-        this.addOnclickToArrows(paper)
+        this.addOnclickToArrows(paper, this.showModal)
     }
-
-    addOnclickToArrows(paper) {
-        paper.on("link:pointerclick", function (cellView, evt) {
-            let model = cellView.model;
-            if (model.attr('text/visibility') === 'visible') {
-                model.attr('text/visibility', 'hidden');
-                model.removeLabel()
-            } else {
-                model.attr('text/visibility', 'visible');
-                model.appendLabel({
-                    attrs: {
-                        text: {
-                            text: model.attr("textToRepresent"),
-                        }
-                    }
-                });
-            }
-        });
-    }
-
 
     addConnectionCirclesToCenter(emp, position, graph) {
         let foundEmployee = this.findElement(emp, "position", position);
@@ -157,9 +135,26 @@ class SubPage extends Component {
         });
     }
 
+
+    showModal = (textToRepresent) => {
+        this.setState({
+            show: !this.state.show,
+            messageInModal : textToRepresent
+        });
+    };
+
+    addOnclickToArrows(paper, showModal) {
+        paper.on("link:pointerclick", function (cellView, evt) {
+            let model = cellView.model;
+            showModal(model.attr("textToRepresent"));
+        });
+    }
+
+
     render() {
         return (
             <div>
+                <Modal show={this.state.show}>{this.state.messageInModal}</Modal>
                 {this.renderSingleGraph(this.props.circleToRender)}
             </div>
         );
@@ -167,3 +162,5 @@ class SubPage extends Component {
 }
 
 export default withRouter(SubPage);
+
+

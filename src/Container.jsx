@@ -168,22 +168,20 @@ class Container extends Component {
     };
 
     circleClickOnMainPage = async position => {
-        await this.setState({previousCircle: this.state.currentCircle, currentCircle: position, subPage : true});
-        console.log(position);
-
+        await this.setState({previousCircle: this.state.currentCircle, currentCircle: position, subPage: true});
     };
 
 
     render() {
-        console.log(this.state.subPage);
         return (
-            <App currentCircle={this.state.currentCircle}
-                 previousCircle={this.state.previousCircle}
-                 employees={this.state.employees}
-                 subPage={this.state.subPage}
-                 onMainButtonClick={this.onMainButtonClick}
-                 onReturnButtonClick={this.onReturnButtonClick}
-                 circleClickOnMainPage={this.circleClickOnMainPage}
+            <App
+                currentCircle={this.state.currentCircle}
+                previousCircle={this.state.previousCircle}
+                employees={this.state.employees}
+                subPage={this.state.subPage}
+                onMainButtonClick={this.onMainButtonClick}
+                onReturnButtonClick={this.onReturnButtonClick}
+                circleClickOnMainPage={this.circleClickOnMainPage}
             />
         );
     }
