@@ -43,6 +43,7 @@ class SubPage extends Component {
         circle.position(this.state.centerStartPositionX, this.state.centerStartPositionY);
         circle.attr("label/text", position);
         circle.addTo(graph);
+        circle.attr("body/fill", "yellow");
         return circle;
     }
 
@@ -129,7 +130,7 @@ class SubPage extends Component {
     renderSingleGraph(position) {
         // eslint-disable-next-line no-undef
         let graph = new joint.dia.Graph();
-        let paper = this.createPaper(graph, "sub");
+        let paper = this.createPaper(graph, "main");
         let centerCircle = this.createCenterCircle(graph, position);
         let listOfNodeCircles = this.addConnectionCirclesToCenter(this.props.employees, position, graph);
         this.createLinksBetweenConnectionCircles(listOfNodeCircles, graph, centerCircle, paper);

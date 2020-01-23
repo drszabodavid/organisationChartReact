@@ -168,7 +168,9 @@ class Container extends Component {
     };
 
     circleClickOnMainPage = async position => {
-        await this.setState({previousCircle: this.state.currentCircle, currentCircle: "GBPO", subPage : true});
+        await this.setState({previousCircle: this.state.currentCircle, currentCircle: position, subPage : true});
+        console.log(position);
+
     };
 
 
