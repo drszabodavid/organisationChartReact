@@ -10,7 +10,7 @@ class SubPage extends Component {
         centerStartPositionY: this.props.centerStartPositionY,
         positions: this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY),
         show: false,
-        messageInModal : null
+        messageInModal: null
     };
 
     calculateConnectedCirclePositions(centerStartPositionX, centerStartPositionY) {
@@ -139,7 +139,7 @@ class SubPage extends Component {
     showModal = (textToRepresent) => {
         this.setState({
             show: !this.state.show,
-            messageInModal : textToRepresent
+            messageInModal: textToRepresent
         });
     };
 
@@ -150,11 +150,15 @@ class SubPage extends Component {
         });
     }
 
+    onModalClick = () => {
+        this.setState({show: !this.state.show})
+    }
+
 
     render() {
         return (
             <div>
-                <Modal show={this.state.show}>{this.state.messageInModal}</Modal>
+                <Modal onModalClick={this.onModalClick} show={this.state.show}>{this.state.messageInModal}</Modal>
                 {this.renderSingleGraph(this.props.circleToRender)}
             </div>
         );
