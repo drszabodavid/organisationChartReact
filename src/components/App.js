@@ -3,23 +3,23 @@ import './App.css';
 import Header from "./Header";
 import MainPage from "./MainPage";
 import SubPage from "./SubPage";
+import NewPosition from "./NewPosition";
 
 class App extends Component {
 
     renderMainPage() {
         return (
-            <div key="app" className="App">
-                {this.renderHeader()}
+            <div key="app" className="App"> {this.renderHeader()}
                 <MainPage employees={this.props.employees}
-                          circleClickOnMainPage={this.props.circleClickOnMainPage}
-                />
+                          circleClickOnMainPage={this.props.circleClickOnMainPage}/>
             </div>
         )
     }
 
     renderHeader() {
         return <Header previousCircle={this.props.previousCircle} onMainButtonClick={this.props.onMainButtonClick}
-                       onReturnButtonClick={this.props.onReturnButtonClick}/>
+                       onReturnButtonClick={this.props.onReturnButtonClick}
+                       onNewPositionButtonClick={this.props.onNewPositionButtonClick}/>
     }
 
     renderSubPage() {
@@ -35,7 +35,22 @@ class App extends Component {
         )
     }
 
+    renderNewPositionForm() {
+        return (
+            <div key="app" className="App">
+                {this.renderHeader()}
+                <NewPosition showForm={this.props.showNewForm} saveNewForm={this.props.saveNewForm}
+                             onNewPositionButtonClick={this.props.onNewPositionButtonClick}
+                             closeForm={this.props.closeForm}
+                />
+            </div>
+        )
+    }
+
     render() {
+        if (this.props.showNewForm) {
+            return this.renderNewPositionForm()
+        }
         if (!this.props.subPage) {
             return this.renderMainPage()
         } else {

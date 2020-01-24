@@ -156,7 +156,8 @@ class Container extends Component {
             },
             {id: "28", name: "Employee28", position: "Position28", connections: ["Site Manager", "Position11"]}
         ],
-        subPage: false
+        subPage: false,
+        showNewForm : false
     };
 
     onMainButtonClick = async () => {
@@ -164,12 +165,30 @@ class Container extends Component {
     };
 
     onReturnButtonClick = async () => {
-        await this.setState({currentCircle: this.state.previousCircle, previousCircle: null, subPage: true});
+        if (this.state.previousCircle !== null)
+            await this.setState({currentCircle: this.state.previousCircle, previousCircle: null, mainPage: false, subPage: true});
     };
 
     circleClickOnMainPage = async position => {
         await this.setState({previousCircle: this.state.currentCircle, currentCircle: position, subPage: true});
     };
+
+    onNewPositionButtonClick = () => {
+        this.setState({currentCircle: null, previousCircle: null, subPage: false, showNewForm : !this.state.showNewForm});
+    };
+
+    onFormSubmit = (name, position, connection) => {
+        let newEmployee = {id : "30", name : name, position : position, connections : [connection]}
+        let currentEmployees = this.state.employees;
+        console.log(currentEmployees)
+        currentEmployees.push(newEmployee);
+        this.setState({employees : currentEmployees});
+        console.log(this.state.employees)
+    }
+
+    closeForm = () => {
+        this.setState({showNewForm : false})
+    }
 
 
     render() {
@@ -179,9 +198,13 @@ class Container extends Component {
                 previousCircle={this.state.previousCircle}
                 employees={this.state.employees}
                 subPage={this.state.subPage}
+                showNewForm={this.state.showNewForm}
+                newPositionPage={this.state.newPositionPage}
                 onMainButtonClick={this.onMainButtonClick}
                 onReturnButtonClick={this.onReturnButtonClick}
                 circleClickOnMainPage={this.circleClickOnMainPage}
+                onNewPositionButtonClick={this.onNewPositionButtonClick}
+                closeForm={this.closeForm}
             />
         );
     }

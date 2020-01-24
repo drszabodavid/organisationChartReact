@@ -26,18 +26,15 @@ class SubPage extends Component {
         positions.push({x: centerStartPositionX - difference, y: centerStartPositionY + difference});
         return positions;
     }
-
     findElement(arr, propName, propValue) {
         for (let i = 0; i < arr.length; i++)
             if (arr[i][propName] === propValue) return arr[i];
     }
-
     createCenterCircle(graph, position) {
         let centerCircle = this.createCircle();
         centerCircle = this.designCenterCircle(centerCircle, graph, position);
         return centerCircle;
     }
-
     designCenterCircle(circle, graph, position) {
         circle.position(this.state.centerStartPositionX, this.state.centerStartPositionY);
         circle.attr("label/text", position);
@@ -45,7 +42,6 @@ class SubPage extends Component {
         circle.attr("body/fill", "yellow");
         return circle;
     }
-
     createLinksBetweenCircles(from, graph, to) {
         // eslint-disable-next-line no-undef
         let link = new joint.shapes.standard.Link();
@@ -63,7 +59,6 @@ class SubPage extends Component {
             }
         });
     }
-
     createCircle() {
         // eslint-disable-next-line no-undef
         const rectNew = new joint.shapes.standard.Circle();
@@ -82,7 +77,6 @@ class SubPage extends Component {
         rectNew.resize(120, 200);
         return rectNew;
     }
-
     createLinksBetweenConnectionCircles(listOfNodeCircles, graph, centerCircle, paper) {
         listOfNodeCircles.forEach(element => {
             this.createLinksBetweenCircles(centerCircle, graph, element);
@@ -90,7 +84,6 @@ class SubPage extends Component {
         });
         this.addOnclickToArrows(paper, this.showModal)
     }
-
     addConnectionCirclesToCenter(emp, position, graph) {
         let foundEmployee = this.findElement(emp, "position", position);
         let listOfConnections = foundEmployee["connections"];
@@ -104,7 +97,6 @@ class SubPage extends Component {
         }
         return listOfNodeCircles;
     }
-
     renderSingleGraph(position) {
         // eslint-disable-next-line no-undef
         let graph = new joint.dia.Graph();
@@ -119,7 +111,6 @@ class SubPage extends Component {
         });
 
     }
-
     createPaper(graph, elementID) {
         // eslint-disable-next-line no-undef
         return new joint.dia.Paper({
@@ -134,25 +125,21 @@ class SubPage extends Component {
             }
         });
     }
-
-
     showModal = (textToRepresent) => {
         this.setState({
             show: !this.state.show,
             messageInModal: textToRepresent
         });
     };
-
     addOnclickToArrows(paper, showModal) {
         paper.on("link:pointerclick", function (cellView, evt) {
             let model = cellView.model;
             showModal(model.attr("textToRepresent"));
         });
     }
-
     onModalClick = () => {
         this.setState({show: !this.state.show})
-    }
+    };
 
 
     render() {

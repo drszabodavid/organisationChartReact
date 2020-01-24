@@ -10,7 +10,10 @@ export default class Modal extends React.Component {
 
         return (
             <div onClick={this.props.onModalClick} className="subModal">
-                <div className="content">{this.props.children}</div>
+                <div className="content">
+                    <div>{this.props.children}</div>
+                    <div>{this.props.children}</div>
+                </div>
             </div>
         )
     }
