@@ -21,7 +21,8 @@ class NewPosition extends React.Component {
     };
 
     handleSubmit = (event) => {
-        console.log("megy ez a szar")
+        console.log("megy ez a szar");
+        this.props.onNewPositionButtonClick(this.state.name, this.state.position, this.state.connection)
         event.preventDefault();
     };
 
@@ -40,7 +41,7 @@ class NewPosition extends React.Component {
                                 <input placeholder="Connection" type="text" value={this.state.connection}
                                        onChange={this.handleConnectionChange}/>
                             </div>
-                            <input onClick={this.handleSubmit} type="submit" value="Submit"/>
+                            <input onClick={this.state.handleSubmit} type="submit" value="Submit"/>
                             <button onClick={this.props.closeForm}>Close</button>
                         </form>
                     </div>
