@@ -1,9 +1,10 @@
 import React from 'react';
-import "./modal.css"
+import "./css/modal.css"
 
 class NewPosition extends React.Component {
 
     state = {
+        name: "",
         position: "",
         connection: ""
     };
@@ -21,9 +22,7 @@ class NewPosition extends React.Component {
     };
 
     handleSubmit = (event) => {
-        console.log("megy ez a szar");
-        this.props.onNewPositionButtonClick(this.state.name, this.state.position, this.state.connection)
-        event.preventDefault();
+        this.props.onNewPositionButtonClick(event, this.state.name, this.state.position, this.state.connection)
     };
 
 

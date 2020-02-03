@@ -10,8 +10,10 @@ class SubPage extends Component {
         centerStartPositionY: this.props.centerStartPositionY,
         positions: this.calculateConnectedCirclePositions(this.props.centerStartPositionX, this.props.centerStartPositionY),
         show: false,
-        messageInModal: null
+        inputMessageInModal: null,
+        outputMessageInModal: null
     };
+
 
     calculateConnectedCirclePositions(centerStartPositionX, centerStartPositionY) {
         let positions = [];
@@ -26,15 +28,18 @@ class SubPage extends Component {
         positions.push({x: centerStartPositionX - difference, y: centerStartPositionY + difference});
         return positions;
     }
+
     findElement(arr, propName, propValue) {
         for (let i = 0; i < arr.length; i++)
             if (arr[i][propName] === propValue) return arr[i];
     }
+
     createCenterCircle(graph, position) {
         let centerCircle = this.createCircle();
         centerCircle = this.designCenterCircle(centerCircle, graph, position);
         return centerCircle;
     }
+
     designCenterCircle(circle, graph, position) {
         circle.position(this.state.centerStartPositionX, this.state.centerStartPositionY);
         circle.attr("label/text", position);
@@ -42,6 +47,7 @@ class SubPage extends Component {
         circle.attr("body/fill", "yellow");
         return circle;
     }
+
     createLinksBetweenCircles(from, graph, to) {
         // eslint-disable-next-line no-undef
         let link = new joint.shapes.standard.Link();
@@ -49,9 +55,8 @@ class SubPage extends Component {
         link.target(to);
         link.addTo(graph);
         link.attr("line/stroke", "orange");
-
-        link.attr("textToRepresent", "Input :  Messaasdfasfasdfasdfasdfge\n " +
-            "Recieve : asdfawfsertertwereasdfasfasdfd");
+        link.attr("textInput", from.attr("label/input"));
+        link.attr("textOutput", from.attr("label/output"));
         link.attr({
             line: {
                 stroke: 'blue',
@@ -59,6 +64,7 @@ class SubPage extends Component {
             }
         });
     }
+
     createCircle() {
         // eslint-disable-next-line no-undef
         const rectNew = new joint.shapes.standard.Circle();
@@ -77,6 +83,7 @@ class SubPage extends Component {
         rectNew.resize(120, 200);
         return rectNew;
     }
+
     createLinksBetweenConnectionCircles(listOfNodeCircles, graph, centerCircle, paper) {
         listOfNodeCircles.forEach(element => {
             this.createLinksBetweenCircles(centerCircle, graph, element);
@@ -84,6 +91,7 @@ class SubPage extends Component {
         });
         this.addOnclickToArrows(paper, this.showModal)
     }
+
     addConnectionCirclesToCenter(emp, position, graph) {
         let foundEmployee = this.findElement(emp, "position", position);
         let listOfConnections = foundEmployee["connections"];
@@ -91,12 +99,15 @@ class SubPage extends Component {
         for (let i = 0; i < listOfConnections.length; ++i) {
             let rectNew = this.createCircle();
             rectNew.position(this.state.positions[i]["x"], this.state.positions[i]["y"]);
-            rectNew.attr("label/text", listOfConnections[i]);
+            rectNew.attr("label/text", listOfConnections[i].name);
+            rectNew.attr("label/input", listOfConnections[i].input);
+            rectNew.attr("label/output", listOfConnections[i].output);
             rectNew.addTo(graph);
             listOfNodeCircles.push(rectNew);
         }
         return listOfNodeCircles;
     }
+
     renderSingleGraph(position) {
         // eslint-disable-next-line no-undef
         let graph = new joint.dia.Graph();
@@ -111,6 +122,7 @@ class SubPage extends Component {
         });
 
     }
+
     createPaper(graph, elementID) {
         // eslint-disable-next-line no-undef
         return new joint.dia.Paper({
@@ -125,27 +137,32 @@ class SubPage extends Component {
             }
         });
     }
-    showModal = (textToRepresent) => {
+
+    showModal = (textInput, textOutput) => {
         this.setState({
             show: !this.state.show,
-            messageInModal: textToRepresent
+            inputMessageInModal: textInput,
+            outputMessageInModal: textOutput,
         });
     };
+
     addOnclickToArrows(paper, showModal) {
         paper.on("link:pointerclick", function (cellView, evt) {
             let model = cellView.model;
-            showModal(model.attr("textToRepresent"));
+            showModal(model.attr("textInput"), model.attr("textOutput"));
         });
     }
+
     onModalClick = () => {
         this.setState({show: !this.state.show})
     };
 
-
     render() {
         return (
             <div>
-                <Modal onModalClick={this.onModalClick} show={this.state.show}>{this.state.messageInModal}</Modal>
+                <Modal onModalClick={this.onModalClick} show={this.state.show}
+                       inputMessage={this.state.inputMessageInModal}
+                       outputMessge={this.state.outputMessageInModal}>TextRoRepresent</Modal>
                 {this.renderSingleGraph(this.props.circleToRender)}
             </div>
         );

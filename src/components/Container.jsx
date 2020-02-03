@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import App from "./components/App";
-let json = require('./employees.js');
-
+import App from "./App";
 
 class Container extends Component {
 
@@ -10,11 +8,12 @@ class Container extends Component {
         previousCircle: null,
         employees: [],
         subPage: false,
-        showNewForm: false
+        showNewForm: false,
     };
 
+
     componentDidMount() {
-        this.setState({employees : json.getAllEmployees()})
+        this.setState({employees: JSON.parse(localStorage.getItem("employees"))})
     }
 
 
@@ -32,20 +31,41 @@ class Container extends Component {
             });
     };
 
-    circleClickOnMainPage = async position => {
-        await this.setState({previousCircle: this.state.currentCircle, currentCircle: position, subPage: true});
+    circleClickOnMainPage = position => {
+        this.setState({previousCircle: this.state.currentCircle, currentCircle: position, subPage: true});
     };
 
-    onNewPositionButtonClick = (name, position, connection) => {
-        let newEmployee = {id: "30", name: "David", position: "Position30", connections: ["Position1", "Position2"]};
-        json.addNewEmployee(newEmployee);
-        this.setState({
-            currentCircle: null,
-            previousCircle: null,
-            subPage: false,
-            showNewForm: !this.state.showNewForm
-        });
+    onNewPositionButtonClick = (event, name, position, connection) => {
+        event.preventDefault()
+        let newEmployee = {};
+        newEmployee.id = "28";
+        newEmployee.name = "Position28";
+        newEmployee.position = "Position28";
+        newEmployee.connections =  [
+            {
+                "name": "Position1",
+                "input": "TESTINPUT",
+                "output": "TESTOUTPUT"
+            },
+            {
+                "name": "Position3",
+                "input": "TESTINPUT",
+                "output": "TESTOUTPUT"
+            }
+        ];
 
+        let employees = [];
+        employees = JSON.parse(localStorage.getItem("employees"));
+        employees.push(newEmployee);
+        localStorage.setItem("employees", JSON.stringify(employees))
+         this.setState({
+             currentCircle: null,
+             previousCircle: null,
+             subPage: false,
+             showNewForm: !this.state.showNewForm,
+             employees : JSON.parse(localStorage.getItem("employees"))
+        });
+        console.log(employees)
     };
 
     closeForm = () => {

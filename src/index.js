@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter} from "react-router-dom";
-import './index.css';
-import Container from "./Container";
-import * as serviceWorker from './serviceWorker';
+import './css/index.css';
+import Container from "./components/Container";
+import {employees} from "./data/employees"
+
+localStorage.setItem("employees", JSON.stringify(employees));
+
+
+
 
 ReactDOM.render(
     <BrowserRouter>
@@ -11,7 +16,4 @@ ReactDOM.render(
     </BrowserRouter>,
     document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+

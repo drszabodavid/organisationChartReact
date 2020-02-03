@@ -1,5 +1,5 @@
 import React from "react";
-import "./modal.css"
+import "./css/modal.css"
 
 export default class Modal extends React.Component {
     render() {
@@ -11,8 +11,8 @@ export default class Modal extends React.Component {
         return (
             <div onClick={this.props.onModalClick} className="subModal">
                 <div className="content">
-                    <div>{this.props.children}</div>
-                    <div>{this.props.children}</div>
+                    <div>{this.props.inputMessage}</div>
+                    <div>{this.props.outputMessge}</div>
                 </div>
             </div>
         )
